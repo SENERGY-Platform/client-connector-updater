@@ -6,7 +6,7 @@ log() {
     first=1
     while read -r line; do
         if [ "$first" -eq "1" ]; then
-            echo "[$(date +"%Y.%m.%d - %H:%M:%S")] $line" >> gup.log 2>&1
+            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")] $line" >> gup.log 2>&1
             first=0
         else
             echo "$line" >> gup.log 2>&1
@@ -16,7 +16,7 @@ log() {
 
 reboot_flag=0
 
-echo "************* starting gateway-updater 0.6.1 *************" | log
+echo "************* starting gateway-updater 0.7 *************" | log
 
 for dir in $(cd .. && ls -d */); do
     path=$(dirname "$(pwd)")/${dir%/}

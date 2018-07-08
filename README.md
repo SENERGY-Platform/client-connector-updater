@@ -51,9 +51,11 @@ The resulting dictionary structur should look something like this:
 
 #### Autostart
 
-...
+Use cron ...
 
-./run.sh
+execute `./run.sh`
+
+run.sh will check for internet access and update "gateway-updater" before starting it.
 
 ---
 

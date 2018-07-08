@@ -16,7 +16,7 @@ log() {
 
 reboot_flag=0
 
-echo "************* starting gateway-updater 0.8.1 *************" | log
+echo "*********** starting gateway-updater 0.8.1 ***********" | log
 
 for dir in $(cd .. && ls -d */); do
     path=$(dirname "$(pwd)")/${dir%/}
@@ -71,6 +71,6 @@ if [ "$reboot_flag" -eq "1" ]; then
     #sleep 30
     #sudo reboot
 else
-    echo "all gateways up to date" | log
+    echo "all gateways up to date - exit" | log
     exit 0
 fi

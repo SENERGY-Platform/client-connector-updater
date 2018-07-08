@@ -18,21 +18,24 @@ if [[ $? -eq 0 ]]; then
     if ! [[ $update_result = *"fatal"* ]] || ! [[ $update_result = *"error"* ]]; then
         status_result=$(git status)
         if [[ $status_result = *"behind"* ]]; then
+            echo "------------------------------------------------------" | log
             echo "(gateway-updater) downloading and applying updates ..." | log
             pull_result=$(git pull 3>&1 1>&2 2>&3 >/dev/null)
             if ! [[ $pull_result = *"fatal"* ]] || ! [[ $pull_result = *"error"* ]]; then
                 echo "(gateway-updater) update success" | log
-                sleep 5
-                ./updater.sh &
-                exit 0
             else
-               echo "(gateway-updater) $pull_result" | log
+               echo "(gateway-updater) $pull_result - exit" | log
+               exit 1
             fi
         fi
     else
-        echo "(gateway-updater) $update_result" | log
+        echo "(gateway-updater) $update_result - exit" | log
+        exit 1
     fi
 else
-    echo "no internet access - can't update" | log
+    echo "no internet access - exit" | log
     exit 1
 fi
+sleep 5
+./updater.sh &
+exit 0

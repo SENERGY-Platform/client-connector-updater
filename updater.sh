@@ -16,7 +16,7 @@ log() {
 
 reboot_flag=0
 
-echo "************* starting gateway-updater 0.7.1 *************" | log
+echo "************* starting gateway-updater 0.8 *************" | log
 
 for dir in $(cd .. && ls -d */); do
     path=$(dirname "$(pwd)")/${dir%/}
@@ -35,33 +35,33 @@ for dir in $(cd .. && ls -d */); do
                    echo "(${dir%/}) $pull_result" | log
                 fi
             fi
-            echo "(${dir%/}) checking dependencies ..." | log
-            pip_upgrade=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade pip)
-            if [[ $pip_upgrade = *"Success"* ]]; then
-                echo "(${dir%/}) 'pip' update success" | log
-            fi
-            if ! [ -z "$path/$task_file" ]; then
-                while IFS="," read -r pkg new_ver; do
-                    cur_ver=$(~/.pyenv/versions/${dir%/}/bin/python -m pip show $pkg | grep Version)
-                    if ! [[ $cur_ver = *"$new_ver"* ]]; then
-                        echo "(${dir%/}) '$pkg' -> $new_ver" | log
-                        if [[ $pkg = *"sepl-connector-client"* ]]; then
-                            rm_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip uninstall -y $pkg)
-                            inst_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git)
-                        else
-                            inst_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
-                        fi
-                        if [[ $inst_result = *"Success"* ]]; then
-                            echo "(${dir%/}) '$pkg' update success" | log
-                            reboot_flag=1
-                        else
-                            echo "(${dir%/}) $inst_result" | log
-                        fi
-                    fi
-                done < $path/$task_file
-            fi
         else
             echo "(${dir%/}) $update_result" | log
+        fi
+        echo "(${dir%/}) checking dependencies ..." | log
+        pip_upgrade=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade pip)
+        if [[ $pip_upgrade = *"Success"* ]]; then
+            echo "(${dir%/}) 'pip' update success" | log
+        fi
+        if ! [ -z "$path/$task_file" ]; then
+            while IFS="," read -r pkg new_ver; do
+                cur_ver=$(~/.pyenv/versions/${dir%/}/bin/python -m pip show $pkg | grep Version)
+                if ! [[ $cur_ver = *"$new_ver"* ]]; then
+                    echo "(${dir%/}) '$pkg' -> $new_ver" | log
+                    if [[ $pkg = *"sepl-connector-client"* ]]; then
+                        rm_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip uninstall -y $pkg)
+                        inst_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git)
+                    else
+                        inst_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
+                    fi
+                    if [[ $inst_result = *"Success"* ]]; then
+                        echo "(${dir%/}) '$pkg' update success" | log
+                        reboot_flag=1
+                    else
+                        echo "(${dir%/}) $inst_result" | log
+                    fi
+                fi
+            done < $path/$task_file
         fi
     fi
 done
@@ -72,4 +72,5 @@ if [ "$reboot_flag" -eq "1" ]; then
     #sudo reboot
 else
     echo "all gateways up to date" | log
+    exit 0
 fi

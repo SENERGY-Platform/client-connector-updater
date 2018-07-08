@@ -1,22 +1,12 @@
 #!/bin/bash
 
-task_file=gupfile
+source logger.sh
 
-log() {
-    first=1
-    while read -r line; do
-        if [ "$first" -eq "1" ]; then
-            echo "[$(date +"%m.%d.%Y %I:%M:%S %p")] $line" >> gup.log 2>&1
-            first=0
-        else
-            echo "$line" >> gup.log 2>&1
-        fi
-    done
-}
+task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting gateway-updater 0.8.1 ***********" | log
+echo "*********** starting gateway-updater 0.9 ***********" | log
 
 for dir in $(cd .. && ls -d */); do
     path=$(dirname "$(pwd)")/${dir%/}

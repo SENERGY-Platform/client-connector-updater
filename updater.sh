@@ -16,7 +16,7 @@ log() {
 
 reboot_flag=0
 
-echo "************* starting gateway-updater 0.7 *************" | log
+echo "************* starting gateway-updater 0.7.1 *************" | log
 
 for dir in $(cd .. && ls -d */); do
     path=$(dirname "$(pwd)")/${dir%/}
@@ -26,22 +26,14 @@ for dir in $(cd .. && ls -d */); do
         if ! [[ $update_result = *"fatal"* ]] || ! [[ $update_result = *"error"* ]]; then
             status_result=$(cd "$path" && git status)
             if [[ $status_result = *"behind"* ]]; then
-                echo "(${dir%/}) downloading updates ..." | log
+                echo "(${dir%/}) downloading and applying updates ..." | log
                 pull_result=$(cd "$path" && git pull 3>&1 1>&2 2>&3 >/dev/null)
                 if ! [[ $pull_result = *"fatal"* ]] || ! [[ $pull_result = *"error"* ]]; then
-                    echo "(${dir%/}) applying updates ..." | log
-                    commit_result=$(cd "$path" && git commit -a -m "update" 3>&1 1>&2 2>&3 >/dev/null)
-                    if ! [[ $commit_result = *"fatal"* ]] || ! [[ $commit_result = *"error"* ]]; then
-                        echo "(${dir%/}) update success" | log
-                        reboot_flag=1
-                    else
-                        echo "(${dir%/}) $commit_result" | log
-                    fi
+                    echo "(${dir%/}) update success" | log
+                    reboot_flag=1
                 else
                    echo "(${dir%/}) $pull_result" | log
                 fi
-            #else
-            #    echo "(${dir%/}) up to date" | log
             fi
             echo "(${dir%/}) checking dependencies ..." | log
             pip_upgrade=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade pip)
@@ -65,8 +57,6 @@ for dir in $(cd .. && ls -d */); do
                         else
                             echo "(${dir%/}) $inst_result" | log
                         fi
-                    #else
-                    #    echo "(${dir%/}) '$pkg' up to date" | log
                     fi
                 done < $path/$task_file
             fi

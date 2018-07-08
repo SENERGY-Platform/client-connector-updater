@@ -46,8 +46,11 @@ The resulting dictionary structur should look something like this:
     
     gateway-updater/
         .git/
-        updater.sh
+        README.md
         gup.log
+        logger.sh
+        run.sh
+        updater.sh
 
 #### Autostart
 
@@ -64,15 +67,15 @@ Usage / Configuration
 
 #### gupfiles
 
-By providing a `gupfile` the gateway-updater knows that a gateway resides in the dictionary. The `gulpfile` contains a list of Python packages the gateway depends on and the desired version of theses packages. Please use the following format `<python package>,<version>` and see the below `gulpfile` example for further explanation:
+By providing a `gupfile` the gateway-updater knows that a gateway resides in the dictionary. The `gupfile` contains a list of Python packages the gateway depends on and the desired version of theses packages. Please use the following format `<python package>,<version>` and see the below `gupfile` example for further explanation:
 
     sepl-connector-client,3.0.3
     paho-mqtt,1.3.1
     pycryptodome,3.6.3
-    six,1.11.0
     pyserial,3.4
+    
 
-**Don't forget to provide a blank line at the end of the `gupfile`.**
+**Don't forget to provide a blank line at the end of the `gupfile`!**
 
 ---
 

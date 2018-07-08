@@ -16,7 +16,7 @@ log() {
 
 reboot_flag=0
 
-echo "************* starting gateway-updater 0.8 *************" | log
+echo "************* starting gateway-updater 0.8.1 *************" | log
 
 for dir in $(cd .. && ls -d */); do
     path=$(dirname "$(pwd)")/${dir%/}

@@ -16,7 +16,7 @@ wget -q --tries=3 --timeout=20 --spider https://www.google.com/  > /dev/null
 if [[ $? -eq 0 ]]; then
     update_result=$(git remote update 3>&1 1>&2 2>&3 >/dev/null)
     if ! [[ $update_result = *"fatal"* ]] || ! [[ $update_result = *"error"* ]]; then
-        status_result=$(&& git status)
+        status_result=$(git status)
         if [[ $status_result = *"behind"* ]]; then
             echo "(gateway-updater) downloading and applying updates ..." | log
             pull_result=$(git pull 3>&1 1>&2 2>&3 >/dev/null)

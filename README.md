@@ -53,6 +53,8 @@ The resulting dictionary structur should look something like this:
 
 ...
 
+./run.sh
+
 ---
 
 Usage / Configuration

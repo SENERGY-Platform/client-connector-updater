@@ -58,8 +58,8 @@ done
 if [ "$reboot_flag" -eq "1" ]; then
     echo "gateways updated - reboot required" | log
     echo "rebooting in 30s ..." | log
-    #sleep 30
-    #sudo reboot
+    sleep 30
+    sudo reboot
 else
     echo "all gateways up to date - exit" | log
     exit 0

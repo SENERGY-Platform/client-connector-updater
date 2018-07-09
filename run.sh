@@ -44,5 +44,5 @@ else
     exit 1
 fi
 sleep 5
-sh $gup_dir/updater.sh &
+bash $gup_dir/updater.sh &
 exit 0

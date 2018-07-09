@@ -13,7 +13,6 @@ Bash script for updating "[connector-client](https://gitlab.wifa.uni-leipzig.de/
     + [gupfiles](#gupfiles)
     + [Deploy Keys](#deploy-key)
 
--------
 
 Requirements
 ----

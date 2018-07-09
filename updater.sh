@@ -10,7 +10,7 @@ task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting gateway-updater 0.9.2 ***********" | log
+echo "*********** starting gateway-updater 0.9.3 ***********" | log
 
 for dir in $(cd $gw_dir && ls -d */); do
     path=$gw_dir/${dir%/}
@@ -61,8 +61,8 @@ for dir in $(cd $gw_dir && ls -d */); do
 done
 if [ "$reboot_flag" -eq "1" ]; then
     echo "gateways updated - reboot required" | log
-    echo "rebooting in 30s ..." | log
-    sleep 30
+    echo "rebooting in 15s ..." | log
+    sleep 15
     sudo reboot
 else
     echo "all gateways up to date - exit" | log

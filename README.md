@@ -69,6 +69,10 @@ With the above line the script will run at 2 AM every day.
 Usage / Configuration
 ----
 
+Execute `./run.sh` to start the update process with a random delay (10-120s) or use `./run.sh now` if a delay is not desired. The gateway-updater will first try to update itself and will then continue to check for gateway updates and dependency updates. Any output is logged to `gup.log`.
+
+---
+
 #### gupfiles
 
 By providing a `gupfile` the gateway-updater can determine that a gateway is present in the dictionary. The `gupfile` contains a list of Python packages the gateway depends on and the desired version of theses packages. Please use the following format `<python package>,<version>` and see the below `gupfile` example for further explanation:

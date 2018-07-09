@@ -59,11 +59,11 @@ The resulting dictionary structur should look something like this:
 
 #### Autostart
 
-Use cron ...
+Use cron to start the script at a desired time.
 
-execute `./run.sh`
+Execute `crontab -e` and add the following line: `0 2 * * *  command to execute`
 
-run.sh will check for internet access and update "gateway-updater" before starting it.
+With the above line the script will run at 2 AM every day.
 
 
 Usage / Configuration

@@ -60,7 +60,7 @@ The resulting dictionary structur should look something like this:
 
 Use cron to start the script at a desired time.
 
-Execute `crontab -e` and add the following line: `0 2 * * *  command to execute`
+Execute `crontab -e` and add the following line: `0 2 * * *  su <your user> -c '<your path>/gateway-updater/run.sh &'`
 
 With the above line the script will run at 2 AM every day.
 

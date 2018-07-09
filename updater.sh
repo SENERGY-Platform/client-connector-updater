@@ -1,15 +1,19 @@
 #!/bin/bash
 
-source logger.sh
+gup_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+gw_dir="$(dirname "$gup_dir")"
+home_dir="$HOME"
+
+source $gup_dir/logger.sh
 
 task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting gateway-updater 0.9 ***********" | log
+echo "*********** starting gateway-updater 0.9.1 ***********" | log
 
-for dir in $(cd .. && ls -d */); do
-    path=$(dirname "$(pwd)")/${dir%/}
+for dir in $(cd $gw_dir && ls -d */); do
+    path=$gw_dir/${dir%/}
     if [ -e "$path/$task_file" ]; then
         echo "(${dir%/}) checking for updates ..." | log
         update_result=$(cd "$path" && git remote update 3>&1 1>&2 2>&3 >/dev/null)
@@ -29,20 +33,20 @@ for dir in $(cd .. && ls -d */); do
             echo "(${dir%/}) $update_result" | log
         fi
         echo "(${dir%/}) checking dependencies ..." | log
-        pip_upgrade=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade pip)
+        pip_upgrade=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade pip)
         if [[ $pip_upgrade = *"Success"* ]]; then
             echo "(${dir%/}) 'pip' update success" | log
         fi
         if ! [ -z "$path/$task_file" ]; then
             while IFS="," read -r pkg new_ver; do
-                cur_ver=$(~/.pyenv/versions/${dir%/}/bin/python -m pip show $pkg | grep Version)
+                cur_ver=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip show $pkg | grep Version)
                 if ! [[ $cur_ver = *"$new_ver"* ]]; then
                     echo "(${dir%/}) '$pkg' -> $new_ver" | log
                     if [[ $pkg = *"sepl-connector-client"* ]]; then
-                        rm_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip uninstall -y $pkg)
-                        inst_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git)
+                        rm_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip uninstall -y $pkg)
+                        inst_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git)
                     else
-                        inst_result=$(~/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
+                        inst_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
                     fi
                     if [[ $inst_result = *"Success"* ]]; then
                         echo "(${dir%/}) '$pkg' update success" | log

@@ -1,6 +1,21 @@
 #!/bin/bash
 
+arg=$1
+
 source logger.sh
+
+duration=$(( ( RANDOM % 120 )  + 10 ))
+
+if ! [ -z "$arg" ]; then
+    if [[ $arg = "now" ]]; then
+        duration=0
+    else
+        echo "unknown argument '$arg'"
+        exit 1
+    fi
+fi
+
+sleep $duration
 
 wget -q --tries=3 --timeout=20 --spider https://www.google.com/  > /dev/null
 if [[ $? -eq 0 ]]; then

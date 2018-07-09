@@ -56,6 +56,8 @@ The resulting dictionary structur should look something like this:
         run.sh
         updater.sh
 
+---
+
 #### Autostart
 
 Use cron ...
@@ -63,8 +65,6 @@ Use cron ...
 execute `./run.sh`
 
 run.sh will check for internet access and update "gateway-updater" before starting it.
-
----
 
 Usage / Configuration
 ----

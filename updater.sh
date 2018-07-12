@@ -10,7 +10,7 @@ task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting gateway-updater 0.9.3 ***********" | log
+echo "*********** starting gateway-updater 0.9.4 ***********" | log
 
 for dir in $(cd $gw_dir && ls -d */); do
     path=$gw_dir/${dir%/}
@@ -43,8 +43,7 @@ for dir in $(cd $gw_dir && ls -d */); do
                 if ! [[ $cur_ver = *"$new_ver"* ]]; then
                     echo "(${dir%/}) '$pkg' -> $new_ver" | log
                     if [[ $pkg = *"sepl-connector-client"* ]]; then
-                        rm_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip uninstall -y $pkg)
-                        inst_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git)
+                        inst_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git@v$new_ver)
                     else
                         inst_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
                     fi

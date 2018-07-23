@@ -10,7 +10,7 @@ task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting gateway-updater 0.9.4 ***********" | log
+echo "*********** starting gateway-updater 0.9.5 ***********" | log
 
 for dir in $(cd $gw_dir && ls -d */); do
     path=$gw_dir/${dir%/}
@@ -51,7 +51,7 @@ for dir in $(cd $gw_dir && ls -d */); do
                         echo "(${dir%/}) '$pkg' update success" | log
                         reboot_flag=1
                     else
-                        echo "(${dir%/}) $inst_result" | log
+                        echo "(${dir%/}) '$pkg' $inst_result" | log
                     fi
                 fi
             done < $path/$task_file

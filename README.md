@@ -19,7 +19,7 @@ Requirements
 
 + Your gateways reside in local git repositories and have remote origins. 
 + A `.gitignore` file for ignoring files created during run-time by the gateways. 
-+ [Pyenv](https://github.com/pyenv/pyenv) and [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv) are installed and there's a virtualenv bearing the same name as the gateway dictionary for every gateway (see [Installation](#installation) for more information). 
++ There's a virtualenv bearing the same name as the gateway dictionary for every gateway (see [Installation](#installation) for more information). 
 + Read only access to `gitlab.wifa.uni-leipzig.de/fg-seits` (see [Deploy Keys](#deploy-key) for more information).
 + The `wget` package is installed.
 
@@ -32,10 +32,10 @@ In the dictionary containing your gateways execute the following command:
 `git clone git@gitlab.wifa.uni-leipzig.de:fg-seits/gateway-updater.git gateway-updater`
 
 For gateway-updater to detect your gateways place a `gupfile` in the root of your gateway dictionary.
-Create a virtualenv via `pyenv virtualenv` for each gateway and make sure to use the same name as the gateway dictionary.
+Create a virtualenv for each gateway and make sure to use the same name as the gateway dictionary.
 The resulting dictionary structur should look something like this:
 
-    .pyenv/versions/
+    .pyenv/
         your-gateway-a/
         your-gateway-b/
     

@@ -3,6 +3,7 @@
 gup_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 gw_dir="$(dirname "$gup_dir")"
 home_dir="$HOME"
+pyenvs_dir=.pyenv
 
 source $gup_dir/logger.sh
 
@@ -33,19 +34,15 @@ for dir in $(cd $gw_dir && ls -d */); do
             echo "(${dir%/}) $update_result" | log
         fi
         echo "(${dir%/}) checking dependencies ..." | log
-        pip_upgrade=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade pip)
-        if [[ $pip_upgrade = *"Success"* ]]; then
-            echo "(${dir%/}) 'pip' update success" | log
-        fi
         if ! [ -z "$path/$task_file" ]; then
             while IFS="," read -r pkg new_ver; do
-                cur_ver=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip show $pkg | grep Version)
+                cur_ver=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip show $pkg | grep Version)
                 if ! [[ $cur_ver = *"$new_ver"* ]]; then
                     echo "(${dir%/}) '$pkg' -> $new_ver" | log
                     if [[ $pkg = *"sepl-connector-client"* ]]; then
-                        inst_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git@v$new_ver)
+                        inst_result=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip install --upgrade git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git@v$new_ver)
                     else
-                        inst_result=$($home_dir/.pyenv/versions/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
+                        inst_result=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
                     fi
                     if [[ $inst_result = *"Success"* ]]; then
                         echo "(${dir%/}) '$pkg' update success" | log

@@ -11,7 +11,7 @@ task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting gateway-updater 0.9.5 ***********" | log
+echo "*********** starting gateway-updater 0.10.1 ***********" | log
 
 for dir in $(cd $gw_dir && ls -d */); do
     path=$gw_dir/${dir%/}

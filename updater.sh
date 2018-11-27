@@ -1,5 +1,19 @@
 #!/bin/bash
 
+#   Copyright 2018 InfAI (CC SES)
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
 gup_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 gw_dir="$(dirname "$gup_dir")"
 home_dir="$HOME"
@@ -11,7 +25,7 @@ task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting gateway-updater 0.10.1 ***********" | log
+echo "*********** starting client-connector-updater 0.10.2 ***********" | log
 
 for dir in $(cd $gw_dir && ls -d */); do
     path=$gw_dir/${dir%/}
@@ -39,8 +53,8 @@ for dir in $(cd $gw_dir && ls -d */); do
                 cur_ver=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip show $pkg | grep Version)
                 if ! [[ $cur_ver = *"$new_ver"* ]]; then
                     echo "(${dir%/}) '$pkg' -> $new_ver" | log
-                    if [[ $pkg = *"sepl-connector-client"* ]]; then
-                        inst_result=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip install --upgrade git+ssh://git@gitlab.wifa.uni-leipzig.de/fg-seits/connector-client.git@v$new_ver)
+                    if [[ $pkg = *"client-connector-lib"* ]]; then
+                        inst_result=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip install --upgrade git+https://github.com/SENERGY-Platform/client-connector-lib.git@v$new_ver)
                     else
                         inst_result=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
                     fi

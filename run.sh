@@ -33,7 +33,7 @@ fi
 
 sleep $duration
 
-wget -q --tries=3 --timeout=20 --spider https://github.com/SENERGY-Platform  > /dev/null
+wget -q -o /dev/null --tries=3 --timeout=20 --spider https://github.com/SENERGY-Platform  > /dev/null
 if [[ $? -eq 0 ]]; then
     update_result=$(cd $gup_dir && git remote update 3>&1 1>&2 2>&3 >/dev/null)
     if ! [[ $update_result = *"fatal"* ]] || ! [[ $update_result = *"error"* ]]; then

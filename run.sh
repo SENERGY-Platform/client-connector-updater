@@ -21,10 +21,12 @@ gup_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $gup_dir/logger.sh
 
 duration=$(( ( RANDOM % 120 )  + 10 ))
+no_reboot=0
 
 if ! [ -z "$arg" ]; then
     if [[ $arg = "now" ]]; then
         duration=0
+        no_reboot=1
     else
         echo "unknown argument '$arg'"
         exit 1
@@ -58,5 +60,9 @@ else
     exit 1
 fi
 sleep 5
-bash $gup_dir/updater.sh &
+if [[ $no_reboot = 1 ]]; then
+    bash $gup_dir/updater.sh nrbt &
+else
+    bash $gup_dir/updater.sh &
+fi
 exit 0

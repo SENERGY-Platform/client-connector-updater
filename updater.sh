@@ -14,6 +14,18 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+arg=$1
+no_reboot=0
+
+if ! [ -z "$arg" ]; then
+    if [[ $arg = "nrbt" ]]; then
+        no_reboot=1
+    else
+        echo "unknown argument '$arg'"
+        exit 1
+    fi
+fi
+
 gup_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 gw_dir="$(dirname "$gup_dir")"
 home_dir="$HOME"
@@ -25,7 +37,7 @@ task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting client-connector-updater 0.10.2 ***********" | log
+echo "*********** starting client-connector-updater 0.10.3 ***********" | log
 
 for dir in $(cd $gw_dir && ls -d */); do
     path=$gw_dir/${dir%/}
@@ -71,9 +83,14 @@ for dir in $(cd $gw_dir && ls -d */); do
 done
 if [ "$reboot_flag" -eq "1" ]; then
     echo "gateways updated - reboot required" | log
-    echo "rebooting in 15s ..." | log
-    sleep 15
-    sudo reboot
+    if [[ $no_reboot = 1 ]]; then
+        echo "reboot overridden by user ..."
+        exit 0
+    else
+        echo "rebooting in 15s ..." | log
+        sleep 15
+        sudo reboot
+    fi
 else
     echo "all gateways up to date - exit" | log
     exit 0

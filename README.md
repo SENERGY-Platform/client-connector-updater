@@ -67,7 +67,7 @@ With the above line the script will run at 2 AM every day.
 Usage / Configuration
 ----
 
-Execute `./run.sh` to start the update process with a random delay (10-120s) or use `./run.sh now` if a delay is not desired. The client-connector-updater will first try to update itself and will then continue to check for client connector updates and dependency updates. Any output is logged to `gup.log`.
+Execute `./run.sh` to start the update process with a random delay (10-120s) or use `./run.sh now` if a delay is not desired. The client-connector-updater will first try to update itself and will then continue to check for client connector updates and dependency updates. Any output is logged to `gup.log`. After a successful update the client-connector-updater will initate a reboot. To override the reboot use the `now` argument.
 
 ---
 

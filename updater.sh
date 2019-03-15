@@ -37,7 +37,7 @@ task_file=gupfile
 
 reboot_flag=0
 
-echo "*********** starting client-connector-updater 0.10.3 ***********" | log
+echo "*********** starting client-connector-updater 0.11.0 ***********" | log
 
 for dir in $(cd $gw_dir && ls -d */); do
     path=$gw_dir/${dir%/}
@@ -61,12 +61,12 @@ for dir in $(cd $gw_dir && ls -d */); do
         fi
         echo "(${dir%/}) checking dependencies ..." | log
         if ! [ -z "$path/$task_file" ]; then
-            while IFS="," read -r pkg new_ver; do
+            while IFS="," read -r pkg new_ver source; do
                 cur_ver=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip show $pkg | grep Version)
                 if ! [[ $cur_ver = *"$new_ver"* ]]; then
                     echo "(${dir%/}) '$pkg' -> $new_ver" | log
-                    if [[ $pkg = *"client-connector-lib"* ]]; then
-                        inst_result=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip install --upgrade git+https://github.com/SENERGY-Platform/client-connector-lib.git@v$new_ver)
+                    if ! [ -z "$source" ]; then
+                        inst_result=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip install --upgrade $source@v$new_ver)
                     else
                         inst_result=$($home_dir/$pyenvs_dir/${dir%/}/bin/python -m pip install --upgrade $pkg==$new_ver)
                     fi

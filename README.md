@@ -1,7 +1,7 @@
 client-connector-updater
 =======
 
-Bash script for updating "[client-connector-lib](https://github.com/SENERGY-Platform/client-connector-lib)" client connectors via git and pip.
+Bash script for updating python client connector projects via git and pip.
 
 -------
 
@@ -17,9 +17,9 @@ Bash script for updating "[client-connector-lib](https://github.com/SENERGY-Plat
 Requirements
 ----
 
-+ Your client connectors reside in local git repositories and have remote origins. 
-+ A `.gitignore` file for ignoring files created during run-time by the client connectors. 
-+ There's a virtualenv bearing the same name as the client connector dictionary for every client connector (see [Installation](#installation) for more information). 
++ Your client connectors reside in local git repositories and have remote origins.
++ A `.gitignore` file for ignoring files created during run-time by the client connectors.
++ There's a virtualenv bearing the same name as the client connector dictionary for every client connector (see [Installation](#installation) for more information).
 + The `wget` package is installed.
 
 
@@ -37,15 +37,15 @@ The resulting dictionary structur should look something like this:
     .pyenv/
         your-client-connector-a/
         your-client-connector-b/
-    
+
     your-client-connector-a/
         .git/
         gupfile
-    
+
     your-client-connector-b/
         .git/
         gupfile
-    
+
     client-connector-updater/
         .git/
         README.md
@@ -53,7 +53,7 @@ The resulting dictionary structur should look something like this:
         logger.sh
         run.sh
         updater.sh
-        
+
 
 #### Autostart
 
@@ -73,9 +73,9 @@ Execute `./run.sh` to start the update process with a random delay (10-120s) or 
 
 #### gupfiles
 
-By providing a `gupfile` the client-connector-updater can determine that a client connector is present in the dictionary. The `gupfile` contains a list of Python packages the client connector depends on and the desired version of theses packages. Please use the following format `<python package>,<version>` and see the below `gupfile` example for further explanation:
+By providing a `gupfile` the client-connector-updater can determine that a client connector is present in the dictionary. The `gupfile` contains a list of Python packages the client connector depends on, the desired version of theses packages and optionally the source of the dependency. Please use the following format `<python package>,<version>,<source>` and see the below `gupfile` example for further explanation:
 
-    client-connector-lib,3.0.3
+    client-connector-lib,3.0.3,git+https://github.com/SENERGY-Platform/client-connector-lib.git
     paho-mqtt,1.3.1
     pycryptodome,3.6.3
     pyserial,3.4
